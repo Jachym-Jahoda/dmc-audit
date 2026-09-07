@@ -369,17 +369,42 @@ dialog.big::backdrop{background:rgba(20,20,18,.86)}
   section{padding:52px 0 0}
   .top nav{gap:14px}
 }
+/* the printed reading. A4 leaves about seven hundred pixels between the margins, which is
+   narrower than the phone breakpoints this page was written against, so on paper it falls into
+   the one-column layout of its own narrow reading. That is right for the problems, where a
+   screenshot wants the whole measure, and wrong for the demonstrations, where it put one pair
+   of phones on each of four sheets and left half of every one of them empty. The pairs are
+   forced back to two across, which is the arrangement they were drawn for and which fits all
+   four on one page.
+
+   Nothing is held whole except the things that are unreadable broken: a picture, a chart, a
+   pair, a checkout row, an offer. A whole problem was held that way too, and a problem is
+   taller than a sheet, so the browser gave up on the rule and broke it wherever it liked,
+   which is how the words landed on one page and the evidence alone on the next. Instead every
+   heading is stuck to whatever follows it, which is the part that actually reads badly. */
 @media print{
   :root{--wrap:100%}
   body{font-size:9pt}
   section{padding:16pt 0 0}
   .top{position:static}
-  .top nav,dialog{display:none}
-  .problem,.chartbox,.offer,.vs,.flow .run{break-inside:avoid}
-  .pic img{max-height:60vh}
-  .pics{display:block}
-  .whole{display:none}
+  .top nav,dialog,.whole{display:none}
   #pricing{padding-bottom:0}
+  h1,h2,h3,h4,.part,.lift,.opener{break-after:avoid}
+  .rest{break-before:avoid;margin-top:16px}
+  .pic,.chartbox,.offer,.vs,.flow .run,.given .one,.cannot{break-inside:avoid}
+  .pic img{max-height:52vh}
+  .pics{display:block}
+  .pics.pair{display:flex;flex-wrap:nowrap;gap:12px}
+  .pics.pair .pic{flex:1 1 0;min-width:0}
+  .pics.pair .pic img{width:100%;max-height:none}
+  .wipe{max-width:560px}
+  .flow .strip{max-width:480px}
+  .phonegrid{grid-template-columns:repeat(2,minmax(0,1fr));gap:22px}
+  .phonegrid .vs{padding:14px 14px 16px}
+  .phonegrid .vs h3{font-size:15px}
+  .vs{margin-bottom:20px}
+  .flow{margin-top:14px}
+  .work{margin-top:36px}
 }
 @media (prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}
