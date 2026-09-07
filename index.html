@@ -373,7 +373,11 @@ dialog.big::backdrop{background:rgba(20,20,18,.86)}
    rather than left to the browser. A4 leaves about seven hundred pixels between the margins and
    a thousand down the page, and three things on the screen do not survive being printed at all.
 
-   A problem gets a page and nothing else is on it. On screen the ten run one under the other
+   A problem gets a page and nothing else is on it, from the second one onwards. The first
+   shares the opening sheet with the heading and the paragraph under it, because a title page
+   carrying one line and then nothing reads as a document that has not started.
+
+   On screen the ten run one under the other
    with a hairline between them, which is right for scrolling and wrong for paper, where a
    problem that ends a third of the way down a sheet puts the next one's evidence on the sheet
    after that. The page break is the separator, so the hairline goes.
@@ -404,6 +408,7 @@ dialog.big::backdrop{background:rgba(20,20,18,.86)}
   .work{margin-top:36px}
 
   .problem{break-before:page;break-inside:avoid;border-top:0;padding:0}
+  .problem:first-of-type{break-before:auto}
   /* a picture takes what the page leaves it. Where a problem carries two, they are set beside
      each other rather than one under the other: stacked they cost the sheet twice over and the
      block no longer fits on it, and in both problems that have two the pair is a comparison
