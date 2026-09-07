@@ -369,42 +369,82 @@ dialog.big::backdrop{background:rgba(20,20,18,.86)}
   section{padding:52px 0 0}
   .top nav{gap:14px}
 }
-/* the printed reading. A4 leaves about seven hundred pixels between the margins, which is
-   narrower than the phone breakpoints this page was written against, so on paper it falls into
-   the one-column layout of its own narrow reading. That is right for the problems, where a
-   screenshot wants the whole measure, and wrong for the demonstrations, where it put one pair
-   of phones on each of four sheets and left half of every one of them empty. The pairs are
-   forced back to two across, which is the arrangement they were drawn for and which fits all
-   four on one page.
+/* the printed reading, which is a different document from the screen one and is written here
+   rather than left to the browser. A4 leaves about seven hundred pixels between the margins and
+   a thousand down the page, and three things on the screen do not survive being printed at all.
 
-   Nothing is held whole except the things that are unreadable broken: a picture, a chart, a
-   pair, a checkout row, an offer. A whole problem was held that way too, and a problem is
-   taller than a sheet, so the browser gave up on the rule and broke it wherever it liked,
-   which is how the words landed on one page and the evidence alone on the next. Instead every
-   heading is stuck to whatever follows it, which is the part that actually reads badly. */
+   A problem gets a page and nothing else is on it. On screen the ten run one under the other
+   with a hairline between them, which is right for scrolling and wrong for paper, where a
+   problem that ends a third of the way down a sheet puts the next one's evidence on the sheet
+   after that. The page break is the separator, so the hairline goes.
+
+   A demonstration is a seam the reader drags, and paper cannot be dragged. Printed as it
+   stands it is the left half of one screen against the right half of another, which reads as a
+   picture that failed rather than as a comparison. On paper both screens are printed whole,
+   one under the other, each with its own label above it, and each demonstration gets a page.
+
+   The phone screens are printed without the handset drawn around them. That drawing leaves an
+   aperture the screen is cropped to fill, which is the right way to show a phone on a screen
+   and the wrong way to show one on paper: the crop cuts the bottom off every screenshot, and a
+   reader holding the page cannot scroll it back. The checkout is laid three across rather than
+   five, because five screens across seven hundred pixels is a hundred and forty pixels a
+   screen, which is a picture of a checkout rather than a checkout anybody can read. */
 @media print{
   :root{--wrap:100%}
   body{font-size:9pt}
-  section{padding:16pt 0 0}
+  section{padding:0}
+  .head{padding:26px 0 10px}
   .top{position:static}
   .top nav,dialog,.whole{display:none}
+  #demo,#pricing{break-before:page}
   #pricing{padding-bottom:0}
   h1,h2,h3,h4,.part,.lift,.opener{break-after:avoid}
   .rest{break-before:avoid;margin-top:16px}
-  .pic,.chartbox,.offer,.vs,.flow .run,.given .one,.cannot{break-inside:avoid}
-  .pic img{max-height:52vh}
+  .chartbox,.offer,.given .one,.cannot,.pic{break-inside:avoid}
+  .work{margin-top:36px}
+
+  .problem{break-before:page;break-inside:avoid;border-top:0;padding:0}
+  /* a picture takes what the page leaves it. Where a problem carries two, they are set beside
+     each other rather than one under the other: stacked they cost the sheet twice over and the
+     block no longer fits on it, and in both problems that have two the pair is a comparison
+     anyway, so side by side is how they are read. */
+  .pic img{max-height:42vh}
   .pics{display:block}
-  .pics.pair{display:flex;flex-wrap:nowrap;gap:12px}
+  .pics:not(.pair):has(.pic + .pic){display:flex;flex-direction:row;gap:14px;
+    align-items:flex-start}
+  .pics:not(.pair):has(.pic + .pic) .pic{flex:1 1 0;min-width:0}
+  .pics:not(.pair):has(.pic + .pic) .pic img{width:100%;max-height:none}
+  .pics.pair{display:flex;flex-direction:row;flex-wrap:nowrap;gap:12px}
   .pics.pair .pic{flex:1 1 0;min-width:0}
   .pics.pair .pic img{width:100%;max-height:none}
-  .wipe{max-width:560px}
-  .flow .strip{max-width:480px}
-  .phonegrid{grid-template-columns:repeat(2,minmax(0,1fr));gap:22px}
-  .phonegrid .vs{padding:14px 14px 16px}
-  .phonegrid .vs h3{font-size:15px}
-  .vs{margin-bottom:20px}
-  .flow{margin-top:14px}
-  .work{margin-top:36px}
+
+  .vs{break-before:page;margin:0}
+  .vs:not(.flow){break-inside:avoid}
+  #demo > .wrap > .vs:first-of-type{break-before:avoid}
+  .wipe{display:flex;flex-direction:column;gap:6px;max-width:610px;aspect-ratio:auto!important;
+    overflow:visible;border:0;cursor:auto}
+  .wipe .seam,.wipe input{display:none}
+  .wipe .tag{position:static;align-self:flex-start;margin:0}
+  .wipe .tag.left{order:1}
+  .wipe > img{order:2;border:1px solid var(--line)}
+  .wipe .tag.right{order:3}
+  .wipe .after{order:4;position:static;clip-path:none}
+  .wipe .after img{border:1px solid var(--line)}
+
+  .phonegrid{display:block}
+  .phonegrid .vs{padding:0;background:none;border:0}
+  .phones{gap:20px}
+  .phones .one{width:calc(50% - 10px)}
+  .iphone{display:block;aspect-ratio:auto}
+  .iphone::after{display:none}
+  .iphone .screen{position:static;border-radius:0;overflow:visible;background:none;
+    width:auto;height:auto}
+  .iphone img{position:static;width:100%;height:auto;object-fit:fill;
+    border:1px solid var(--line)}
+
+  .flow{margin-top:0}
+  .flow .run{break-inside:avoid}
+  .flow .strip{grid-template-columns:repeat(3,1fr);max-width:680px}
 }
 @media (prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}
